@@ -1,0 +1,54 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<dom-module id="voting-data">
+  <template></template>
+  <script>
+
+  Polymer({
+
+    is: 'voting-data',
+
+    properties: {
+
+      player1: {
+        type:Number,
+        value:0,
+        notify:true
+      },
+      player2: {
+        type:Number,
+        value:0,
+        notify:true
+      }
+    },
+
+    ready: function() {
+      let player1Score = window.database.ref('player1');
+      player1Score.on('value',snapshot => this.player1 = snapshot.val());
+
+      let player2Score = window.database.ref('player2');
+      player2Score.on('value',snapshot => this.player2 = snapshot.val());
+    },
+
+    upvotePlayer: function(playerName) {
+
+      let playerVotes = window.database.ref(playerName);
+      
+      playerVotes.transaction((current_value) => {
+        return (current_value || 0) + 1;
+      },(error,commited,snapshot) => {
+
+      if(playerName === "player1") {
+        this.player1 = snapshot.val();
+      } else {
+        this.player2 = snapshot.val();
+      }
+
+      });
+      
+    }
+
+  });
+
+  </script>
+
+</dom-module>

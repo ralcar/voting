@@ -1,0 +1,69 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../src/voting-data.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
+
+
+<dom-module id="duel-voting-view">
+  <style>
+    :host {
+      display: block;
+    }
+
+    .playerFovs {
+      display:block;
+    }
+
+    .scoreboard {
+      display:block;
+    }
+  </style>
+  <template>
+
+    <voting-data id="voteData" player1="{{player1Score}}" player2="{{player2Score}}"></voting-data>
+    
+    <div class="scoreboard">
+      <div>{{player1Score}} <paper-button raised on-tap="_upvotePlayer1">Vote on player #1</paper-button></div>
+      <div>{{player2Score}} <paper-button raised on-tap="_upvotePlayer2">Vote on player #2</paper-button></div>
+    </div>
+
+    <div>
+      <span><iron-image src="https://media.giphy.com/media/Wa4fqIUhhhEoE/giphy.gif"></span>
+      <span><iron-image src="https://media.giphy.com/media/Wa4fqIUhhhEoE/giphy.gif"></span>
+    <div>
+
+
+  </template>
+  <script>
+
+  Polymer({
+
+    is: 'duel-voting-view',
+
+    properties: {
+      player1Score: {
+        type:Number,
+        value:0
+      },
+      player2Score: {
+        type:Number,
+        value:0
+      }
+    },
+
+    _upvotePlayer1: function() {
+      var voteData = this.$.voteData;
+      voteData.upvotePlayer("player1");
+    },
+
+    _upvotePlayer2: function() {
+      var voteData = this.$.voteData;
+      voteData.upvotePlayer("player2");
+    }
+
+  });
+
+  </script>
+
+</dom-module>
